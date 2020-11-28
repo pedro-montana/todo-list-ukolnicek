@@ -57,11 +57,12 @@ export const useProject = () => {
                 docId: project.Id,
             }));
 
-            if (JSON.stringify(allProjects != JSON.stringify(projects))) {
+            if (JSON.stringify(allProjects) !== JSON.stringify(projects)) {
                 setProjects(allProjects);
             }
         });
     }, [projects]);
+
 
     return { projects, setProjects };
 };
