@@ -3,7 +3,7 @@ import moment from 'moment';
 import { firebase } from '../firebase';
 import { collatedTasksExist } from '../helpers';
 
-export const useTasks = selectedProject => {
+export const useTasks = (selectedProject) => {
     const [tasks, setTasks] = useState([]);
     const [archivedTasks, setArchivedTasks] = useState([]);
     useEffect(() => {
@@ -39,7 +39,7 @@ export const useTasks = selectedProject => {
         });
 
         return () => unsubscribe();
-    }, [selectedProject]);
+    }, []);
 
     return { tasks, archivedTasks };
 };
@@ -61,7 +61,7 @@ export const useProject = () => {
                 setProjects(allProjects);
             }
         });
-    }, [projects]);
+    }, []);
 
 
     return { projects, setProjects };
