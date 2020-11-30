@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { FaTrashAlt } from "react-icons/fa";
-import { useProjectsValue, useSelectedProjectValue } from "../context";
-import { firebase } from "../firebase";
+import React, { useState } from 'react';
+import { FaTrashAlt } from 'react-icons/fa';
+import { useProjectsValue, useSelectedProjectValue } from '../context';
+import { firebase } from '../firebase';
 
 export const IndividualProject = ({ project }) => {
   const [showConfirm, setShowConfirm] = useState(false);
@@ -11,12 +11,12 @@ export const IndividualProject = ({ project }) => {
   const deleteProject = (docId) => {
     firebase
       .firestore()
-      .collection("projects")
+      .collection('projects')
       .doc(docId)
       .delete()
       .then(() => {
         setProjects([...projects]);
-        setSelectedProject("INBOX");
+        setSelectedProject('INBOX');
       });
   };
 
@@ -29,8 +29,9 @@ export const IndividualProject = ({ project }) => {
         data-testid="delete-project"
         role="button"
         onClick={() => setShowConfirm(!showConfirm)}
+        onKeyDown={() => setShowConfirm(!showConfirm)}
       >
-        <FaTrashAlt />
+        <FaTrashAlt title={`Delete '${project.name}'`} />
         {showConfirm && (
           <div className="project-delete-modal">
             <div className="project-delete-modal__inner">
@@ -40,7 +41,14 @@ export const IndividualProject = ({ project }) => {
                 onClick={() => deleteProject(project.docId)}
               >
                 Delete
-                <span onClick={() => setShowConfirm(!showConfirm)}>Cancel</span>
+                <span
+                  onClick={() => setShowConfirm(!showConfirm)}
+                  onKeyDown={() => setShowConfirm(!showConfirm)}
+                  role="button"
+                  tabIndex={0}
+                >
+                  Cancel
+                </span>
               </button>
             </div>
           </div>

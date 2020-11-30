@@ -11,6 +11,7 @@
    *, *:before, *:after {
      -webkit-box-sizing: inherit;
              box-sizing: inherit;
+             outline: none;
    }
    
    body {
@@ -274,18 +275,11 @@
    
      &__project {
        cursor: pointer;
-// not final
-       padding: 5px 0;
-       padding-left: 10px;
-       padding-right: 15px;
-       width: 100%;
-       display: -webkit-box;
-       display: -ms-flexbox;
-       display: flex;
-       -webkit-box-align: center;
-           -ms-flex-align: center;
-               align-items: center;
-  //  
+
+      button {
+        background: transparent;
+        border: 0;
+      }    
 
        div:nth-child(1) {
          padding: 5px 0;
@@ -437,7 +431,7 @@
    /* Show Confirm Delete
      ============================================ */
    .project-delete-modal {
-     position: relative;
+     position: absolute;
    
      &__inner {
        @include box-overlay();
@@ -447,6 +441,7 @@
        top: 10px;
        right: 0;
        background-color: white;
+       position: relative;
    
        p {
          margin-top: 5px;
