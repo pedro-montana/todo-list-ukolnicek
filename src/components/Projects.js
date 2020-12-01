@@ -24,6 +24,7 @@ export const Projects = ({ activeValue = null }) => {
       >
         <div
         type="button"
+        aria-label={`Select ${project.name} as the task project`}
         tabIndex={0}
         onClick={() => {
           setActive(project.projectId);
