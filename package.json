@@ -20,13 +20,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage --coverageDirectory=coverage",
+    "test": "react-scripts test --watchAll --coverage --coverageDirectory=coverage",
     "eject": "react-scripts eject"
   },
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.js",
       "!src/index.js",
+      "!src/firebase.prod.js",
       "!src/hooks/*.js",
       "!src/context/*.js"
     ],

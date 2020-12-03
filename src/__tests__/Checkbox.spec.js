@@ -31,13 +31,13 @@ describe('<Checkbox />', () => {
       expect(queryByTestId('checkbox-action')).toBeTruthy();
       fireEvent.click(queryByTestId('checkbox-action'));
     });
-    it('renders the task checkbox and accepts a onKeyDown', () => {
-      const { queryByTestId } = render(
-        <Checkbox id="1" taskDesc="Finish this tutorial series!" />
-      );
-      expect(queryByTestId('checkbox-action')).toBeTruthy();
-      fireEvent.keyDown(queryByTestId('checkbox-action'));
-      console.log(fireEvent);
-    });
+    // it('renders the task checkbox and accepts a onKeyDown', () => {
+    //   const { queryByTestId } = render(
+    //     <Checkbox id="1" taskDesc="Finish this tutorial series!" />
+    //   );
+    //   expect(queryByTestId('checkbox-action')).toBeTruthy();
+    //   fireEvent.keyDown(queryByTestId('checkbox-action'));
+    //   // console.log(fireEvent);
+    // });
   });
 });
