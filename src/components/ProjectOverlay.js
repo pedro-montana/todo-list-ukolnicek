@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useProjectsValue } from '../context';
+import { FaArrowUp } from 'react-icons/fa';
 
-export const ProjectOverlay = ({setProject, showProjectOverlay, setShowProjectOverlay}) => {
+export const ProjectOverlay = ({
+  setProject,
+  showProjectOverlay,
+  setShowProjectOverlay,
+}) => {
   const { projects } = useProjectsValue();
 
   return (
@@ -31,6 +36,15 @@ export const ProjectOverlay = ({setProject, showProjectOverlay, setShowProjectOv
               </div>
             </li>
           ))}
+          <li>
+            <div
+              onClick={() => {
+                setShowProjectOverlay(false);
+              }}
+            >
+              <FaArrowUp />
+            </div>
+          </li>
         </ul>
       </div>
     )

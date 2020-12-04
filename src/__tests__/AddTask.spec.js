@@ -5,7 +5,7 @@ import { useSelectedProjectValue } from '../context';
 import { firebase } from '../firebase';
 
 jest.mock('../context', () => ({
-  useSelectedProjectValue: jest.fn(() => ({ selectedProject: '1' })),
+  useSelectedProjectValue: jest.fn(() => ({ selectedProject: 1 })),
   useProjectsValue: jest.fn(() => ({
     projects: [],
   })),
@@ -47,10 +47,8 @@ describe('<AddTask />', () => {
     });
 
     it('renders the <AddTask /> main showable when clicked', () => {
-      const { queryByTestId } = render(
-        <AddTask showAddTaskMain />
-      );
-        fireEvent.click(queryByTestId('show-main-action'));
+      const { queryByTestId } = render(<AddTask showAddTaskMain />);
+      fireEvent.click(queryByTestId('show-main-action'));
       expect(queryByTestId('show-main-action')).toBeTruthy();
     });
   });

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { FaRegListAlt, FaRegCalendarAlt } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaRegListAlt, FaRegCalendarAlt, FaFastBackward } from 'react-icons/fa';
 import moment from 'moment';
 import { firebase } from '../firebase';
 import { useSelectedProjectValue } from '../context';
@@ -18,6 +18,7 @@ export const AddTask = ({
   const [showMain, setShowMain] = useState(shouldShowMain);
   const [showProjectOverlay, setShowProjectOverlay] = useState(false);
   const [showTaskDate, setShowTaskDate] = useState(false);
+  const [showArchivedTasks, setShowArchivedTasks] = useState(false);
 
   const { selectedProject } = useSelectedProjectValue();
 
@@ -30,6 +31,7 @@ export const AddTask = ({
     } else if (projectId === 'NEXT_7') {
       collatedDate = moment().add(7, 'days').format('DD/MM/YYYY');
     }
+
     return (
       task &&
       projectId &&
@@ -58,18 +60,24 @@ export const AddTask = ({
       data-testid="add-task-comp"
     >
       {showAddTaskMain && (
-        <div
-          className="add-task__shallow"
-          data-testid="show-main-action"
-          onClick={() => setShowMain(!showMain)}
-          onKeyDown={() => setShowMain(!showMain)}
-          tabIndex={0}
-          aria-label="Add task"
-          role="button"
-        >
-          <span className="add-task__plus" title="Add Task">+</span>
-          <span className="add-task__text" title="Add Task">Add Task</span>
-        </div>
+        <>
+          <div
+            className="add-task__shallow"
+            data-testid="show-main-action"
+            onClick={() => setShowMain(!showMain)}
+            onKeyDown={() => setShowMain(!showMain)}
+            tabIndex={0}
+            aria-label="Add task"
+            role="button"
+          >
+            <span className="add-task__plus" title="Add Task">
+              +
+            </span>
+            <span className="add-task__text" title="Add Task">
+              Add Task
+            </span>
+          </div>
+        </>
       )}
 
       {(showMain || showQuickAddTask) && (
@@ -81,8 +89,8 @@ export const AddTask = ({
                 <span
                   className="add-task__cancel-x"
                   data-testid="add-task-quick-cancel"
-          aria-label="Cancel adding task"
-          onClick={() => {
+                  aria-label="Cancel adding task"
+                  onClick={() => {
                     setShowMain(false);
                     setShowProjectOverlay(false);
                     setShowQuickAddTask(false);
@@ -122,10 +130,10 @@ export const AddTask = ({
             type="button"
             className="add-task__submit"
             data-testid="add-task"
-            onClick={() => 
+            onClick={() =>
               showQuickAddTask
-              ? addTask() && setShowQuickAddTask(false)
-              : addTask()
+                ? addTask() && setShowQuickAddTask(false)
+                : addTask()
             }
           >
             Add Task
@@ -142,8 +150,8 @@ export const AddTask = ({
                 setShowMain(false);
                 setShowProjectOverlay(false);
               }}
-          aria-label="Cancel adding a task"
-          tabIndex={0}
+              aria-label="Cancel adding a task"
+              tabIndex={0}
               role="button"
             >
               Cancel

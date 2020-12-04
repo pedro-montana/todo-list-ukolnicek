@@ -1,10 +1,10 @@
 import React from 'react';
 import moment from 'moment';
-import { FaRegPaperPlane, FaRegLemon, FaSun } from 'react-icons/fa';
+import { FaRegPaperPlane, FaRegLemon, FaSun, FaArrowUp } from 'react-icons/fa';
 
 export const TaskDate = ({ setTaskDate, showTaskDate, setShowTaskDate }) =>
   showTaskDate && (
-    <div className="task-date" data-testid="tak-date-overlay">
+    <div className="task-date" data-testid="task-date-overlay">
       <ul className="task-date__list">
         <li data-testid="task-date-overlay">
           <div
@@ -66,6 +66,15 @@ export const TaskDate = ({ setTaskDate, showTaskDate, setShowTaskDate }) =>
             <span>Next week</span>
           </div>
         </li>
+        <li>
+            <div
+              onClick={() => {
+                setShowTaskDate(false);
+            }}
+            >
+              <FaArrowUp />
+            </div>
+          </li>
       </ul>
     </div>
   );
