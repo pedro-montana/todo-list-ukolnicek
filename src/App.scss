@@ -7,6 +7,7 @@
 html {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 *,
 *:before,
@@ -33,11 +34,44 @@ ul {
   padding: 0;
 }
 
+.preload {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  top: 0;
+  background-color: #fafafa;
+  z-index: 3000;
+  &__inner {
+    position: relative;
+    overflow: hidden;
+    margin-left: calc(50% - 100px);
+    @media (max-width: 900px) {
+      margin-left: calc(50% - 75px);
+    }
+    margin-top: 30vh;
+    z-index: 3001;
+    img {
+      height: 150px;
+      width: 150px;
+      opacity: 1;
+      z-index: 3003;
+    }
+    &.loaded {
+      img {
+        transition: opacity 0.2s ease-out;
+        opacity: 0;
+      }
+    }
+  }
+}
+
 // Variables
 $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
   rgba(0, 0, 0, 0.1) 0px 4px 11px;
 $generic-border: 1px solid #f1f1f1;
 $generic-bg: #6344d3;
+$generic-min-width: 250px;
 
 /* Mixins
      ============================================ */
@@ -138,27 +172,201 @@ $generic-bg: #6344d3;
 
 /* Darkmode
      ============================================ */
+/*Darkmode Variables*/
+$darkmode-bg: #0c1333;
+$darkmode-text: #fff;
+$darkmode-border: 1px solid #030313;
 .darkmode {
+  background-color: $darkmode-bg;
+
+  a {
+    color: #6344d3;
+  }
+
   header {
     -webkit-box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.15);
     background-color: #1b1b1b;
-    border-color: transparent;
+    border-bottom: $darkmode-border;
   }
 
   .sidebar {
-    background-color: #353535;
-    color: white;
+    background-color: $darkmode-bg;
+    color: $darkmode-text;
+    border-right: $darkmode-border;
 
+    .sidebar__generic {
+      li {
+        span,
+        div:nth-child(1) span:first-of-type svg {
+          color: $darkmode-text;
+        }
+      }
+      li.active,
+      li:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+    }
+    &__middle {
+      border-bottom: $darkmode-border;
+    }
+    &__middle span,
+    &__middle h2 {
+      color: $darkmode-text;
+    }
+
+    &__project.active,
+    &__project:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
-  .tasks__revive-list li {
-    background-color: rgb(66, 14, 14);
-    color: white;
+
+  .tasks {
+    background-color: rgba(255, 255, 255, 0.03);
+    color: $darkmode-text;
+    border-right: $darkmode-border;
   }
+
   .tasks__list li {
-    background-color: rgb(11, 15, 71);
+    background-color: rgb(5, 6, 29);
+    color: $darkmode-text;
+    border-bottom: none;
+    // border: 1px solid rgb(34, 6, 6);
+    margin-bottom: 5px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+      a {
+        color: rgb(177, 177, 255);
+      }
+    }
+    &.edit {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    div {
+      &::selection {
+        background-color: black;
+      }
+    }
+    .task-edit-heading {
+      color: inherit;
+    }
+  }
+
+  .tasks__revive-list li {
+    background-color: rgb(5, 6, 29);
+    color: $darkmode-text;
+    border-bottom: none;
+    // border: 1px solid rgb(34, 6, 6);
+    margin-bottom: 5px;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.1);
+    }
+    .checkbox-holder {
+      .checkbox.checkbox-revive {
+        background-color: rgba(255, 255, 255, 0.5);
+      }
+    }
+  }
+
+  .add-task__text,
+  .add-project__text {
+    color: $darkmode-text;
+  }
+  .add-task__text-active {
+    display: inline-block;
     color: white;
-    border-radius: 8px;
+    font-size: 14px;
+    margin-left: 15px;
+    font-weight: bold;
+  }
+
+  .add-task__project,
+  .add-task__date {
+    color: $darkmode-text;
+  }
+  .add-task__content,
+  input.add-project__name {
+    color: white;
+    background-color: #121120;
+    border: $darkmode-border;
+    caret-color: white;
+  }
+
+  .revive-task__text {
+    color: $darkmode-text;
+  }
+  .revive-task__icon svg {
+    color: rgb(206, 206, 206);
+  }
+  .revive-task-hr {
+    border: none;
+    border-bottom: $darkmode-border;
+    margin-bottom: 10px;
+  }
+
+  .project-delete-modal__inner {
+    p,
+    span {
+      color: black;
+    }
+  }
+  .add-task__overlay {
+    .add-task__cancel-x {
+      color: $darkmode-text;
+    }
+    .add-task__main {
+      background-color: #0e173e;
+      .header {
+        color: $darkmode-text;
+      }
+    }
+  }
+  .add-task__description-header {
+    color: white;
+  }
+
+  .task-date,
+  .project-overlay {
+    background-color: $darkmode-bg;
+    border-radius: 5px;
+  }
+  .task-date__list,
+  .project-overlay__list {
+    li {
+      color: $darkmode-text;
+      background-color: rgb(5, 6, 29);
+      border-radius: 5px;
+      div:nth-child(1) {
+        span:first-of-type svg {
+          fill: white;
+        }
+      }
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      div:nth-child(1):hover {
+        color: inherit;
+        span:first-of-type svg {
+          fill: white;
+        }
+      }
+    }
+  }
+  .add-task__cancel,
+  .add-project__cancel {
+    color: $darkmode-text;
+  }
+  .show-sidebar-button {
+    color: #233896;
+    background-color: rgba(255, 255, 255, 0.3);
+  }
+  .hide-sidebar-button {
+    background-color: #0c1333;
+    border-top: none;
+    border-right: none;
+    border-bottom: none;
   }
 }
 
@@ -176,9 +384,15 @@ header {
   position: fixed;
   top: 0;
   width: 100%;
+  min-width: $generic-min-width;
 
   @include mq('900px') {
     padding: 0 10px;
+    &.small-header,
+    &.small-header nav {
+      height: 44px;
+      transition: height 200ms ease-in;
+    }
   }
 
   nav {
@@ -193,6 +407,7 @@ header {
     max-width: 922px;
     margin: auto;
     height: 64px;
+    transition: height 200ms ease-in;
 
     p,
     li {
@@ -205,7 +420,8 @@ header {
         grid-area: 1 / 1;
 
         img {
-          width: 24px;
+          width: 32px;
+          margin-top: 2px;
         }
       }
 
@@ -236,11 +452,23 @@ header {
           &.settings__add {
             margin-right: 15px;
             font-size: 40px;
-
             button {
               @include transparent-button();
               color: white;
               cursor: pointer;
+            }
+          }
+          &.settings__today-date {
+            margin-right: 300px;
+            width: 60px;
+            cursor: default;
+            &:hover {
+              border-radius: none;
+              background-color: initial;
+            }
+
+            @media (max-width: 900px) {
+              display: none;
             }
           }
 
@@ -267,19 +495,34 @@ header {
 
 /* Sidebar
      ============================================ */
+$sidebar-transition-top: 200ms;
+$sidebar-transition-left: 300ms;
+
 .sidebar {
   @include no-select();
+  top: 0;
   width: 266px;
   height: calc(100vh);
+  // -webkit-transition: width $sidebar-transition-left;
+  -webkit-transition: left $sidebar-transition-left;
+  // transition: width $sidebar-transition-left;
+  transition: left $sidebar-transition-left;
   padding-top: 74px;
   position: fixed;
   overflow-x: hidden;
-  overflow-y: visible;
+  overflow-y: auto;
   border-right: $generic-border;
   background-color: #f6f5ff;
+  z-index: 300;
 
   @include mq('900px') {
-    display: none;
+    // width: 0px;
+    left: -266px;
+    background-color: #edebff;
+    &.sidebar-mobile {
+      // width: 266px;
+      left: 0;
+    }
   }
 
   li {
@@ -309,6 +552,10 @@ header {
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
+
+      .project-delete-modal__inner {
+        display: block;
+      }
     }
 
     &-delete {
@@ -408,13 +655,7 @@ header {
       font-size: 15px;
       padding-left: 0;
       padding-right: 0;
-      // not final
-      display: -webkit-box;
-      display: -ms-flexbox;
-      display: flex;
-      padding: 10px 0 10px 10px;
-      width: 100%;
-      //
+
       div:nth-child(1) {
         display: -webkit-box;
         display: -ms-flexbox;
@@ -443,8 +684,19 @@ header {
       &:hover {
         font-weight: bold;
         background-color: white;
-      border-radius: 8px 0 0 8px;
+        border-radius: 8px 0 0 8px;
+      }
     }
+  }
+
+  .sidebar-logout {
+    width: 100%;
+    padding-left: 13px;
+    padding-right: 20px;
+    margin-top: 20px;
+    cursor: pointer;
+    .sidebar-logout__inner {
+      display: block;
     }
   }
 }
@@ -454,17 +706,18 @@ header {
 .project-delete-modal {
   position: absolute;
   z-index: 1000;
-  left:0;
+  left: 0;
 
   &__inner {
     @include box-overlay();
     z-index: 1099;
     width: 200px;
     padding: 10px;
-    top: 10px;
+    top: 16px;
     right: 0;
     background-color: white;
     position: relative;
+    display: block;
 
     p {
       margin-top: 5px;
@@ -501,18 +754,30 @@ header {
      ============================================ */
 .tasks {
   width: 656px;
-  background-color: white;
+  min-width: $generic-min-width;
+  overflow-x: hidden;
+  background-color: #fafafa;
   margin-left: 266px;
   border-right: $generic-border;
   min-height: calc(100vh);
   vertical-align: top;
-  padding-left: 40px;
+  padding-left: 45px;
   padding-right: 40px;
   padding-top: 80px;
   padding-bottom: 84px;
 
+  @media (max-width: 400px) {
+    width: 410px;
+    overflow-x: hidden;
+  }
+
   @include mq('900px') {
     margin-left: 0;
+    width: auto;
+    padding-right: 10px;
+    padding-left: 20px;
+  }
+  @media (min-width: 900px) AND (max-width: 930px) {
     width: auto;
   }
 
@@ -520,11 +785,40 @@ header {
     font-size: 20px;
     font-weight: normal;
     margin: 0 30px 20px 0;
+    .project-edit-icon svg {
+      margin-bottom: 5px;
+      height: 12px;
+      color: gray;
+      justify-content: right;
+      &:hover {
+        color: inherit;
+      }
+    }
+    .project-delete-icon {
+      align-items: center;
+      justify-content: center;
+      svg {
+        color: gray;
+        margin-left: 10px;
+        margin-right: auto;
+        &:hover {
+          color: inherit;
+        }
+      }
+    }
+  }
+  .tasks-loading {
+    text-align: center;
+    margin-top: 50px;
   }
 
   .add-task {
     margin-top: 20px;
   }
+
+  /*Variables
+  =======================*/
+  $task-list-item-hover: rgba(246, 245, 255, 1);
 
   &__list li {
     display: -webkit-box;
@@ -538,13 +832,25 @@ header {
     padding-left: 10px;
     font-size: 14px;
     list-style-type: none;
+    border-radius: 15px;
     border-bottom: 1px solid #f0f0f0;
-    
+    border-top: 1px transparent white;
+    margin-bottom: 5px;
+    cursor: default;
+    overflow-wrap: break-word;
+    // min-width: 250px;
+    @media (max-width: 900px) {
+      padding-top: 18px;
+      padding-bottom: 18px;
+      font-size: 16px;
+    }
+
     .checkbox-holder {
       margin-right: 20px;
       display: -webkit-box;
       display: -ms-flexbox;
       display: flex;
+      height: 20px;
       -webkit-box-align: center;
       -ms-flex-align: center;
       align-items: center;
@@ -552,6 +858,9 @@ header {
       -ms-flex-pack: center;
       justify-content: center;
       line-height: 16px;
+      @media (max-width: 900px) {
+        margin-right: 10px;
+      }
 
       .checkbox {
         cursor: pointer;
@@ -564,6 +873,156 @@ header {
         border-radius: 16px;
       }
     }
+    .task-info-container {
+      position: relative;
+      display: flex;
+      height: 20px;
+      margin-top: 2px;
+      margin-left: 5px;
+
+      @media (max-width: 900px) {
+        position: absolute;
+        right: 8px;
+        margin-top: -13px;
+      }
+      @media (max-width: $generic-min-width) {
+        display: none;
+      }
+
+      .task-finish-date {
+        position: relative;
+        float: right;
+        margin-right: 20px;
+        @media (max-width: 900px) {
+          position: absolute;
+          margin-right: 0;
+          right: 20px;
+          font-size: 13px;
+          &.show {
+            margin-right: 20px;
+          }
+        }
+      }
+      .task-edit {
+        display: none;
+        color: grey;
+        margin-left: auto;
+        margin-right: 10px;
+        float: right;
+        cursor: pointer;
+        @media (max-width: 900px) {
+          width: 0;
+          height: 0;
+        }
+        &:hover {
+          @media (min-width: 900px) {
+            color: inherit;
+          }
+        }
+        &.show {
+          display: inherit;
+          width: auto;
+          height: auto;
+        }
+      }
+    }
+
+    .task-edit-holder {
+      margin-left: 10px;
+      @media (max-width: 900px) {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+    .task-edit-heading {
+      margin-left: 5px;
+      margin-bottom: 5px;
+      color: black;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .task-edit-name {
+      @extend .add-task__content;
+      height: 100px;
+      width: 100%;
+      font-size: 100%;
+    }
+
+    &:hover {
+      background-color: $task-list-item-hover;
+      .task-edit {
+        display: inherit;
+      }
+    }
+    &.edit {
+      background-color: $task-list-item-hover;
+    }
+
+    .task-holder {
+      width: 90%;
+      span {
+        cursor: pointer;
+      }
+      .task-edit-holder {
+        width: 105%;
+      }
+    }
+
+    .task-toggle-description {
+      display: inline;
+      padding: 5px;
+      cursor: pointer;
+      svg {
+        margin-left: 5px;
+        margin-bottom: -4px;
+        padding: 2px 2px 0 2px;
+        height: 20px;
+        width: 20px;
+        @media (max-width: 900px) {
+          height: 22px;
+          width: 22px;
+          margin-bottom: -7px;
+          padding: 2px;
+        }
+      }
+    }
+
+    div:nth-child(2) {
+      height: auto;
+    }
+    .task-description {
+      // max-height: 0;
+      height: auto;
+      margin-top: auto;
+      margin-bottom: auto;
+      margin-left: -10px;
+      margin-right: 5px;
+      @include mq('900px') {
+        margin-left: -30px;
+      }
+      &__text {
+        height: 0;
+        overflow: hidden;
+        white-space: break-spaces;
+      }
+      &.show {
+        @extend .task-description;
+        min-height: 20px;
+        height: auto;
+        margin-top: 10px;
+        margin-bottom: 5px;
+        .task-description__text {
+          min-height: 20px;
+          height: auto;
+          cursor: text;
+        }
+      }
+    }
+  }
+
+  &__revive-disclaimer {
+    font-size: 13px;
+    margin-top: -15px;
   }
 
   &__revive-list li {
@@ -578,9 +1037,15 @@ header {
     padding-left: 10px;
     font-size: 14px;
     list-style-type: none;
+    border-radius: 15px;
     border-bottom: 1px solid #f0f0f0;
-    background-color: rgb(255, 224, 224);
-    border-radius: 8px;
+    border-top: 1px transparent white;
+    margin-bottom: 5px;
+    cursor: default;
+
+    &:hover {
+      background-color: $task-list-item-hover;
+    }
 
     .checkbox-holder {
       margin-right: 20px;
@@ -594,6 +1059,9 @@ header {
       -ms-flex-pack: center;
       justify-content: center;
       line-height: 16px;
+      @media (max-width: 900px) {
+        margin-right: 10px;
+      }
 
       .checkbox {
         cursor: pointer;
@@ -604,16 +1072,31 @@ header {
         display: block;
         border: 1px solid gray;
         border-radius: 16px;
+        &.checkbox-revive {
+          background-color: rgba(0, 0, 0, 0.3);
+        }
       }
     }
   }
-  
+}
+
+.revive-task-hr {
+  border: none;
+  border-bottom: 1px solid #6344d3;
+  margin-bottom: 10px;
+}
+
+.revive-task-active {
+  span {
+    color: black;
+    font-weight: bold;
+  }
 }
 
 /* Add Task
      ============================================ */
 .add-task {
-    &__overlay {
+  &__overlay {
     background: rgba(102, 102, 102, 0.5);
     position: absolute;
     margin: auto;
@@ -625,7 +1108,6 @@ header {
     -webkit-transition: opacity 0.2s ease-in;
     transition: opacity 0.2s ease-in;
     height: calc(100vh);
-
 
     .add-task__main {
       @include mq('900px') {
@@ -656,13 +1138,14 @@ header {
       color: gray;
       float: right;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 16px;
       margin-top: 10px;
     }
   }
 
   &__main {
     position: relative;
+    margin-bottom: 10px;
   }
 
   &__project,
@@ -676,11 +1159,14 @@ header {
   &__project {
     margin-right: 0;
   }
+  &__desc {
+    @extend .add-task__date;
+  }
 
   &__content {
     width: 100%;
     border: 1px solid #ddd;
-    background-color: white !important;
+    background-color: white;
     border-radius: 3px;
     height: 35px;
     padding-left: 10px;
@@ -700,12 +1186,33 @@ header {
     @include btn('90px');
   }
 }
-
-.add-task__shallow,
-.add-project {
+.add-task__description-header {
+  // padding-top: 25px;
+  margin: 15px 5px 10px 5px;
+  display: inline-block;
+  color: black;
+  font-size: 14px;
+  font-weight: bold;
+}
+.add-task__description-content {
+  @extend .add-task__content;
+  resize: vertical;
+  height: 130px;
+  width: 100%;
+  font-size: 90%;
+}
+.task-edit-description {
+  @extend .add-task__description-content;
+}
+.add-task__shallow {
   @include no-select;
   cursor: pointer;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+}
+
+.add-project {
+  @extend .add-task__shallow;
+  // margin-bottom: 90px;
 }
 
 .add-task__plus,
@@ -721,6 +1228,13 @@ header {
   font-size: 14px;
   margin-left: 15px;
 }
+.add-task__text-active {
+  display: inline-block;
+  color: black;
+  font-size: 14px;
+  margin-left: 15px;
+  font-weight: bold;
+}
 
 /* Revive Task
 ==============================================*/
@@ -732,10 +1246,10 @@ header {
 
 .revive-task__icon {
   svg {
-  color: #1f2066;
-  font-size: 14px;
-  margin-left: -2px;
-  padding-top: 3px;
+    color: #1f2066;
+    font-size: 14px;
+    margin-left: -2px;
+    padding-top: 3px;
   }
 }
 
@@ -769,7 +1283,10 @@ header {
       align-items: center;
       &:hover {
         color: black;
-        font-weight: 500;
+        font-weight: bold;
+        span:first-of-type svg {
+          fill: black;
+        }
       }
 
       span:first-of-type {
@@ -778,6 +1295,9 @@ header {
         svg {
           fill: grey;
         }
+      }
+      .task-date-close {
+        margin: auto;
       }
     }
   }
@@ -788,6 +1308,8 @@ header {
 .project-overlay {
   @include box-overlay();
   background-color: white;
+  max-height: 200px;
+  overflow-y: auto;
 
   @include mq('900px') {
     width: 200px;
@@ -803,6 +1325,9 @@ header {
       padding: 10px;
       &:hover {
         font-weight: bold;
+      }
+      .project-overlay-close {
+        margin-left: 47%;
       }
     }
   }
@@ -824,7 +1349,7 @@ header {
   &__name {
     width: 100%;
     border: 1px solid #ddd;
-    background-color: white !important;
+    background-color: white;
     border-radius: 3px;
     height: 35px;
     padding-left: 10px;

@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import { useProjectsValue, useSelectedProjectValue } from "../context";
 import { IndividualProject } from "./IndividualProject";
 
-export const Projects = ({ activeValue = null }) => {
+export const Projects = ({ activeValue = null, setShowSidebar, scrollTop }) => {
   const [active, setActive] = useState(activeValue);
   const { setSelectedProject } = useSelectedProjectValue();
   const { projects } = useProjectsValue();
+  const [blockShowSidebar, setBlockShowSidebar] = useState(false);
 
   return (
     projects &&
@@ -23,19 +24,21 @@ export const Projects = ({ activeValue = null }) => {
         title={project.name}
       >
         <div
-        type="button"
+        // type="button"
         aria-label={`Select ${project.name} as the task project`}
         tabIndex={0}
         onClick={() => {
           setActive(project.projectId);
           setSelectedProject(project.projectId);
+          !blockShowSidebar && setShowSidebar(false);
+          scrollTop();
         }}
         onKeyDown={() => {
           setActive(project.projectId);
           setSelectedProject(project.projectId);
         }}
         >
-        <IndividualProject project={project} />
+        <IndividualProject setShowSidebar={setShowSidebar} setBlockShowSidebar={setBlockShowSidebar} project={project} />
         </div>
       </li>
     ))

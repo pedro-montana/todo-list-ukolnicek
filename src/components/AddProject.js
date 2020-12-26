@@ -36,7 +36,7 @@ export const AddProject = ({ shouldShow = false }) => {
             className="add-project__name"
             data-testid="project-name"
             type="text"
-            placeholder="🤓 Name your project"
+            placeholder="Pojmenujte projekt"
           />
           <button
             className="add-project__submit"
@@ -44,10 +44,10 @@ export const AddProject = ({ shouldShow = false }) => {
             onClick={() => addProject()}
             data-testid="add-project-submit"
           >
-            Add Project
+            Přidat projekt
           </button>
           <span
-            aria-label="Cancel adding project"
+            aria-label="Zrušit přidávání projektu"
             data-testid="hide-project-overlay"
             className="add-project__cancel"
             onClick={() => setShow(false)}
@@ -55,23 +55,29 @@ export const AddProject = ({ shouldShow = false }) => {
             role="button"
             tabIndex={0}
           >
-            Cancel
+            Zrušit
           </span>
         </div>
       )}
-      <span className="add-project__plus" title="Add Project">+</span>
-      <span
-        aria-label="Add Project"
-        data-testid="add-project-action"
-        className="add-project__text"
-        onClick={() => setShow(!show)}
-        onKeyDown={() => setShow(!show)}
-        role="button"
-        tabIndex={0}
-        title="Add Project"
-      >
-        Add Project
-      </span>
+      {!show && (
+        <>
+          <span className="add-project__plus" title="Přidat projekt">
+            +
+          </span>
+          <span
+            aria-label="Přidat projekt"
+            data-testid="add-project-action"
+            className="add-project__text"
+            onClick={() => setShow(!show)}
+            onKeyDown={() => setShow(!show)}
+            role="button"
+            tabIndex={0}
+            title="Přidat projekt"
+          >
+            Přidat projekt
+          </span>
+        </>
+      )}
     </div>
   );
 };

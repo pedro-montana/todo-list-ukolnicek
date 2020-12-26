@@ -6,7 +6,6 @@ import { collatedTasksExist } from '../helpers';
 export const useTasks = (selectedProject) => {
   const [tasks, setTasks] = useState([]);
   const [archivedTasks, setArchivedTasks] = useState([]);
-  const [fetchCount, setFetchCount] = useState(1);
 
   useEffect(() => {
     let unsubscribe = firebase
@@ -21,11 +20,13 @@ export const useTasks = (selectedProject) => {
         ? (unsubscribe = unsubscribe.where(
             'date',
             '==',
-            moment().format('DD/MM/YYYY')
+            moment().format('YYYY/MM/DD')
           ))
         : selectedProject == 'INBOX' || selectedProject === 0
-        ? (unsubscribe = unsubscribe.where('date', '==', ''))
-        : unsubscribe;
+        ? unsubscribe
+        // (unsubscribe = unsubscribe.where('date', '==', ''))
+        : 
+        unsubscribe;
 
     unsubscribe = unsubscribe.onSnapshot((snapshot) => {
       const newTasks = snapshot.docs.map((task) => ({
@@ -37,16 +38,14 @@ export const useTasks = (selectedProject) => {
         selectedProject === 'NEXT_7'
           ? newTasks.filter(
               (task) =>
-                moment(task.date, 'DD-MM-YYYY').diff(moment(), 'days') <= 7 &&
+                moment(task.date, 'YYYY/MM/DD').diff(moment(), 'days') <= 7 &&
                 task.archived !== true
             )
-          : newTasks.filter((task) => task.archived !== true)
+          : newTasks.filter((task) => task.archived === false || !task.archived)
       );
 
       setArchivedTasks(newTasks.filter((task) => task.archived !== false));
   });
-    setFetchCount(fetchCount + 1);
-    console.log(`useTasks was fetched ${fetchCount} times from Firebase`);
     return () => unsubscribe();
   }, [selectedProject]);
 
@@ -55,7 +54,6 @@ export const useTasks = (selectedProject) => {
 
 export const useProjects = () => {
   const [projects, setProjects] = useState([]);
-  const [fetchCount, setFetchCount] = useState(1);
 
   useEffect(() => {
     firebase
@@ -80,59 +78,6 @@ export const useProjects = () => {
           setProjects(allProjects);
         }
       });
-    setFetchCount(fetchCount + 1);
-    console.log(`useProjects was fetched ${fetchCount} times from Firebase`);
   }, [projects]);
   return { projects, setProjects };
-};
-
-export const useArchivedTasks = (selectedProject) => {
-  const [tasks, setTasks] = useState([]);
-  const [archivedTasks, setArchivedTasks] = useState([]);
-  const [fetchCount, setFetchCount] = useState(1);
-
-  useEffect(() => {
-    let subscribe = firebase
-      .firestore()
-      .collection('tasks')
-      .where('userId', '==', 'af4t56yd6667');
-
-    subscribe =
-      selectedProject
-        ? (subscribe = subscribe.where('projectId', '==', selectedProject))
-        : selectedProject == 'TODAY'
-        ? (subscribe = subscribe.where(
-            'date',
-            '==',
-            moment().format('DD/MM/YYYY')
-          ))
-        : selectedProject == 'INBOX' || selectedProject === 0
-        ? (subscribe = subscribe.where('date', '==', ''))
-        : subscribe;
-
-    subscribe = subscribe.onSnapshot((snapshot) => {
-      const newTasks = snapshot.docs.map((task) => ({
-        id: task.id,
-        ...task.data(),
-      }));
-
-      setTasks(
-        selectedProject === 'NEXT_7'
-          ? newTasks.filter(
-              (task) =>
-                moment(task.date, 'DD-MM-YYYY').diff(moment(), 'days') <= 7 &&
-                task.archived !== false
-            )
-          : newTasks.filter((task) => task.archived !== false)
-      );
-
-      setArchivedTasks(newTasks.filter((task) => task.archived !== false));
-  });
-    setFetchCount(fetchCount + 1);
-    console.log(`useArchivedTasks was fetched ${fetchCount} times from Firebase`);
-    console.log(tasks);
-    return () => subscribe();
-  }, [selectedProject]);
-
-  return { tasks, archivedTasks };
 };

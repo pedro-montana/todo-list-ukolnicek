@@ -6,7 +6,7 @@ import { useSelectedProjectValue } from '../context';
 import { ProjectOverlay } from './ProjectOverlay';
 import { TaskDate } from './TaskDate';
 
-export const AddTask = ({
+export const EditTask = ({
   showAddTaskMain = true,
   shouldShowMain = false,
   showQuickAddTask,
@@ -81,7 +81,7 @@ export const AddTask = ({
               className={showMain ? 'add-task__text-active' : 'add-task__text'}
               title="Přidat úkol"
             >
-              Přidat úkol
+              Uložit
             </span>
           </div>
         </>

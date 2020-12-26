@@ -41,8 +41,11 @@ export const ProjectOverlay = ({
               onClick={() => {
                 setShowProjectOverlay(false);
               }}
+              title="Zavřít"
             >
-              <FaArrowUp />
+              <FaArrowUp
+              className="project-overlay-close"
+              />
             </div>
           </li>
         </ul>
