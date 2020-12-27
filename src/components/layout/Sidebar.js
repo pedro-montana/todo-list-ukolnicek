@@ -4,6 +4,7 @@ import {
   FaInbox,
   FaRegCalendarAlt,
   FaRegCalendar,
+  FaSignOutAlt,
 } from 'react-icons/fa';
 import { useTasks } from '../../hooks';
 import { Projects } from '../Projects';
@@ -140,9 +141,9 @@ export const Sidebar = ({ showSidebar, setShowSidebar }) => {
         )}
       </ul>
       {showProjects && <AddProject />}
-      <div className="sidebar-logout" onClick={() => {firebase.auth().signOut(); setLogOut(true);}}>
-        <div className="sidebar-logout__inner">
-          <span>Odhlásit se</span>
+      <div className="sidebar-logout">
+        <div className="sidebar-logout__inner" title="Odhlásit se" onClick={() => {firebase.auth().signOut(); setLogOut(true);}}>
+          <span><FaSignOutAlt /></span><span>Odhlásit se</span>
         </div>
       </div>
     </div>

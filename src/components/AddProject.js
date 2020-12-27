@@ -18,7 +18,7 @@ export const AddProject = ({ shouldShow = false }) => {
       .add({
         projectId,
         name: projectName,
-        userId: 'af4t56yd6667',
+        userId: firebase.auth().currentUser.uid,
       })
       .then(() => {
         setProjects([...projects]);

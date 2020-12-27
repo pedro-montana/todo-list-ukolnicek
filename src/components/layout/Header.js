@@ -4,24 +4,19 @@ import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { AddTask } from '../AddTask';
 import { firebase } from '../../firebase';
 
-export const Header = ({ darkMode, setDarkMode, offset, showSidebar, setShowSidebar }) => {
+export const Header = ({ darkMode, setDarkMode, offset, showSidebar, setShowSidebar, docId }) => {
   const [shouldShowMain, setShouldShowMain] = useState(false);
   const [showQuickAddTask, setShowQuickAddTask] = useState(false);
-  const [data, setData] = useState([]);
 
   const saveTheme = () => {
     localStorage.setItem('darkTheme', !darkMode);
     firebase
       .firestore()
       .collection('users')
-      .doc('HVlvicupXs3QFLFgD2EG')
+      .doc(docId)
       .update({
         darkmodeDefault: !darkMode,
       });
-  };
-
-  const scrollTop = () => {
-    window.scrollTo(0, 0);
   };
 
   useEffect(() => {
@@ -30,17 +25,7 @@ export const Header = ({ darkMode, setDarkMode, offset, showSidebar, setShowSide
     } else {
       document.body.style.overflowY = 'visible';
     }
-  });
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const result = await fetch(
-        'https://svatky.adresa.info/json'
-      ).then((response) => response.json());
-      setData(result);
-    };
-    fetchData();
-  }, []);
+  }, [showQuickAddTask]);
 
   return (
     <header

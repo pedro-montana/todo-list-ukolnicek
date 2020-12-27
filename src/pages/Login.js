@@ -1,11 +1,14 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import { withRouter, Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import { firebase } from '../firebase.js';
 import { AuthContext } from '../auth';
+import { SmallLoad } from '../components/SmallLoad';
 import './Login.scss';
 
 const Login = ({ history }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleLogin = useCallback(
     async (event) => {
       event.preventDefault();
@@ -16,6 +19,7 @@ const Login = ({ history }) => {
           .signInWithEmailAndPassword(email.value, password.value);
         history.push('/');
       } catch (error) {
+        setLoading(false);
         alert(error);
       }
     },
@@ -29,32 +33,39 @@ const Login = ({ history }) => {
   }
 
   return (
-    <div className="login">
-      <div className="login-inner">
-        <img src="/images/logo-small.png" />
-        <h1>Přihlásit se</h1>
-        <form onSubmit={handleLogin}>
-          <label>
-            <input
-              className="login-input"
-              name="email"
-              type="email"
-              placeholder="Email"
-            />
-          </label>
-          <label>
-            <input
-              className="login-input"
-              name="password"
-              type="password"
-              placeholder="Heslo"
-            />
-          </label>
-          <button type="submit">Přihlásit se</button>
-          <p>Jste tu poprvé? <Link to='/signup'>Zaregistrovat</Link>.</p>
-        </form>
+    <>
+      <div className="login">
+        <div className="login-inner">
+          <img alt="Úkolníček" title="Úkolníček" src="/icon-192.png" />
+          <h1>Přihlásit se</h1>
+          <form onSubmit={handleLogin}>
+            <label>
+              <input
+                className="login-input"
+                name="email"
+                type="email"
+                placeholder="Email"
+              />
+            </label>
+            <label>
+              <input
+                className="login-input"
+                name="password"
+                type="password"
+                placeholder="Heslo"
+              />
+            </label>
+            <button type="submit" onClick={() => setLoading(true)}>
+              Přihlásit se
+            </button>
+            <p>
+              Jste tu poprvé? <Link to="/signup">Zaregistrovat</Link>.
+            </p>
+          </form>
+        </div>
       </div>
-    </div>
+      {loading && <SmallLoad />}
+    </>
   );
 };
 

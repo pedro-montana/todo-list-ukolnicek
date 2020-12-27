@@ -35,6 +35,10 @@ p {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: #f6f5ff;
+  }
 }
 
 /* Login
@@ -74,9 +78,6 @@ p {
       @extend .btn-login;
       background-color: white;
       border-color: #c7cad1;
-      &:hover {
-        background-color:#c7cad1;
-      }
     }
 
     h1 {
@@ -148,9 +149,6 @@ p {
       @extend .btn-login;
       background-color: white;
       border-color: #c7cad1;
-      &:hover {
-        background-color:#c7cad1;
-      }
     }
 
     h1 {

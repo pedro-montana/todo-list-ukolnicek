@@ -15,6 +15,7 @@ export const Tasks = () => {
   const { tasks } = useTasks(selectedProject);
   const { archivedTasks } = useTasks(selectedProject);
   const [showArchivedTasks, setShowArchivedTasks] = useState(false);
+  const [showDelete, setShowDelete] = useState(true);
 
   let projectName = '';
   let showName = '';
@@ -45,18 +46,25 @@ export const Tasks = () => {
   }
 
   useEffect(() => {
-    document.title = `${showName} | CheckIt`;
-  });
+    document.title = `${showName} | Todo List`;
+    if (
+      projectName == 'Inbox' ||
+      projectName == 'Today' ||
+      projectName == 'Next 7 Days'
+    ) {
+      setShowDelete(false);
+    } else {
+      setShowDelete(true);
+    }
+  }, [showName]);
 
   return (
     <>
       <div className="tasks" data-testid="tasks">
-        <ProjectName projectName={showName} />
+        <ProjectName projectName={showName} showDelete={showDelete} />
         <ul className="tasks__list">
           {tasks.length > 0 ? (
-            tasks.map((task) => (
-              <OneTask task={task} />
-            ))
+            tasks.map((task) => <OneTask task={task} key={task.id} />)
           ) : (
             <div key={0}>
               <FaInfoCircle /> Žádné úkoly k zobrazení
@@ -89,7 +97,12 @@ export const Tasks = () => {
             <h2>
               <i>Úkoly k obnovení</i>
             </h2>
-            <p className="tasks__revive-disclaimer"><i>Dokončené úkoly je možné obnovit do 3 dnů než jsou nenávratně odstraněny.</i></p>
+            <p className="tasks__revive-disclaimer">
+              <i>
+                Dokončené úkoly je možné obnovit do 3 dnů než jsou automaticky
+                odstraněny.
+              </i>
+            </p>
             <ul className="tasks__revive-list">
               {archivedTasks.length > 0 ? (
                 archivedTasks.map((task) => (
