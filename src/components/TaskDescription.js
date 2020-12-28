@@ -9,7 +9,7 @@ export const TaskDescription = ({
   id,
   descId,
   desc,
-  date,
+  // date,
   editTask,
   setEditTask,
   showDescription,

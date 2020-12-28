@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import moment from 'moment';
 import { Checkbox } from './Checkbox';
-import { EditTask } from './EditTask';
 import { TaskDescription } from './TaskDescription';
 import { FaRegEdit } from 'react-icons/fa';
 
-export const OneTask = ({ task }) => {
+export const OneTask = ({ task, project }) => {
   const [showDescription, setShowDescription] = useState(false);
   const [editTask, setEditTask] = useState(false);
 
@@ -18,7 +17,7 @@ export const OneTask = ({ task }) => {
           descId={`desc_${task.id}`}
           desc={task.description && task.description}
           task={task.task}
-          date={task.date}
+          // date={task.date}
           editTask={editTask}
           setEditTask={setEditTask}
           showDescription={showDescription}
@@ -32,9 +31,26 @@ export const OneTask = ({ task }) => {
               className={
                 showDescription ? 'task-finish-date show' : 'task-finish-date'
               }
-              title={task.date && !task.date.includes('Invalid') ? moment(task.date).format('DD.MM.YYYY') : undefined}
+              style={
+                task.date &&
+                !task.date.includes('Invalid') &&
+                moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') <
+                  moment().format('YYYY/MM/DD')
+                  ? { color: '#990000' }
+                  : undefined
+              }
+              title={
+                project != 'Today' &&
+                task.date &&
+                !task.date.includes('Invalid')
+                  ? moment(task.date, 'YYYY/MM/DD').format('DD.MM.YYYY')
+                  : undefined
+              }
             >
-              {task.date && !task.date.includes('Invalid') &&  moment(task.date, 'YYYY/MM/DD').format('DD.MM.')}
+              {project != 'Today' &&
+                task.date &&
+                !task.date.includes('Invalid') &&
+                moment(task.date, 'YYYY/MM/DD').format('DD.MM.')}
             </span>
           )}
           <span

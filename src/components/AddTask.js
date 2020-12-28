@@ -29,7 +29,7 @@ export const AddTask = ({
     let createdTime = moment().format('YYYY/MM/DD HH:mm:ss');
 
     if (projectId === 'TODAY') {
-      collatedDate = moment('YYYY/MM/DD').format('YYYY/MM/DD');
+      collatedDate = moment().format('YYYY/MM/DD');
     } else if (projectId === 'NEXT_7') {
       collatedDate = moment().add(7, 'days').format('YYYY/MM/DD');
     }
