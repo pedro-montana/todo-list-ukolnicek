@@ -9,7 +9,7 @@ import Logout from './pages/Logout';
 import { ErrorPage } from './pages/ErrorPage';
 import ReactGA from 'react-ga';
 
-ReactGA.initialize('G-X2TX4VKYKB');
+ReactGA.initialize('UA-186235355-1');
 ReactGA.pageview(window.location.pathname + window.location.search);
 
 export const App = () => {
