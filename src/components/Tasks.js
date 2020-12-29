@@ -62,11 +62,11 @@ export const Tasks = () => {
     }
   }, [showName]);
 
-  function compare( a, b ) {
-    if ( a.date < b.date ){
+  function compare(a, b) {
+    if (a.date < b.date) {
       return -1;
     }
-    if ( a.date > b.date ){
+    if (a.date > b.date) {
       return 1;
     }
     return 0;
@@ -90,9 +90,7 @@ export const Tasks = () => {
   }, [archivedTasks]);
 
   useEffect(() => {
-    setCleanTasks(
-      tasks
-        .filter((task) => task.archived === false));
+    setCleanTasks(tasks.filter((task) => task.archived === false));
   }, [tasks]);
 
   return (
@@ -101,7 +99,11 @@ export const Tasks = () => {
         <ProjectName projectName={showName} showDelete={showDelete} />
         <ul className="tasks__list">
           {tasks.length > 0 || todayArchivedTasks.length > 0 ? (
-            cleanTasks.sort( compare ).map((task) => <OneTask task={task} key={task.id} project={projectName} />)
+            cleanTasks
+              .sort(compare)
+              .map((task) => (
+                <OneTask task={task} key={task.id} project={projectName} />
+              ))
           ) : (
             <div key={0}>
               <FaInfoCircle /> Žádné úkoly k zobrazení

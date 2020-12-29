@@ -7,6 +7,10 @@ import Login from './pages/Login';
 import SignUp from './pages/SignUp';
 import Logout from './pages/Logout';
 import { ErrorPage } from './pages/ErrorPage';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('G-X2TX4VKYKB');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 export const App = () => {
   return (

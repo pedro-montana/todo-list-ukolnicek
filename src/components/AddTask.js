@@ -13,7 +13,7 @@ export const AddTask = ({
   setShowQuickAddTask,
 }) => {
   const [task, setTask] = useState('');
-  const [taskDate, setTaskDate] = useState('');
+  const [taskDate, setTaskDate] = useState('Invalid date');
   const [project, setProject] = useState('');
   const [showMain, setShowMain] = useState(shouldShowMain);
   const [showProjectOverlay, setShowProjectOverlay] = useState(false);
