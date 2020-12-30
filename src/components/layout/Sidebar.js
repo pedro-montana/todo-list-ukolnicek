@@ -39,11 +39,6 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
     }, 300);
   }, [showSidebar]);
 
-  useEffect(() => {
-    console.log(`showSidebar: ${showSidebar}`);
-    console.log(`showBackground: ${showBackground}`);
-  });
-
   if (logOut) {
     return <Redirect to="/logout" />;
   }
@@ -80,14 +75,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
               </span>
               <span>
                 Příchozí
-                {tasks.length > 0 &&
-                  ` (${
-                    tasks.filter(
-                      (task) =>
-                        moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') <=
-                        moment().format('YYYY/MM/DD')
-                    ).length
-                  })`}
+                {tasks.length > 0 && ` (${tasks.length})`}
               </span>
             </div>
           </li>
@@ -121,7 +109,7 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
                   ` (${
                     tasks.filter(
                       (task) =>
-                        moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') ==
+                        moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') <=
                         moment().format('YYYY/MM/DD')
                     ).length
                   })`}

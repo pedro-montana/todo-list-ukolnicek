@@ -472,6 +472,9 @@ header {
         span {
           color: #d9d9d9;
           cursor: default;
+          @media (min-width: 900px) {
+            display: none;
+          }
         }
       }
 

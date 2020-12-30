@@ -47,13 +47,13 @@ export const OneTask = ({ task, project }) => {
                   : undefined
               }
             >
-              {project != 'Today' &&
+              {
                 task.date &&
                 !task.date.includes('Invalid') &&
                 moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') !=
                   moment().format('YYYY/MM/DD') &&
                 moment(task.date, 'YYYY/MM/DD').format('DD.MM.')}
-              {project != 'Today' &&
+              {
                 task.date &&
                 !task.date.includes('Invalid') &&
                 moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') ==
