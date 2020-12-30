@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaRegCalendarAlt } from 'react-icons/fa';
 import Linkify from 'react-linkify';
 import { firebase } from '../firebase';
-import { TaskDate } from './TaskDate';
 
 export const TaskDescription = ({
   task,
@@ -74,7 +73,17 @@ export const TaskDescription = ({
 
   return (
     <>
-      <span onClick={() => setShowDescription(!showDescription)}>{task}</span>
+      <span onClick={() => setShowDescription(!showDescription)}>
+        <Linkify
+          componentDecorator={(decoratedHref, decoratedText) => (
+            <a href={decoratedHref} target="_blank" rel="noopener noreferrer" key={0}>
+              {decoratedText}
+            </a>
+          )}
+        >
+          {task}
+        </Linkify>
+      </span>
       <div
         className="task-toggle-description"
         title="Podrobnosti"
@@ -93,16 +102,18 @@ export const TaskDescription = ({
         <div className="task-description__text">
           <Linkify
             componentDecorator={(decoratedHref, decoratedText) => (
-              <a
-                href={decoratedHref}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={decoratedHref} target="_blank" rel="noopener noreferrer">
                 {decoratedText}
               </a>
             )}
           >
-            {desc ? desc : <span onClick={() => setEditTask(true)}><i>Přidat podrobnosti</i></span>}
+            {desc ? (
+              desc
+            ) : (
+              <span onClick={() => setEditTask(true)}>
+                <i>Přidat podrobnosti</i>
+              </span>
+            )}
           </Linkify>
         </div>
       </div>

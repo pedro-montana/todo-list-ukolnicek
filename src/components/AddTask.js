@@ -57,7 +57,6 @@ export const AddTask = ({
         })
     );
   };
-
   return (
     <div
       className={showQuickAddTask ? 'add-task add-task__overlay' : 'add-task'}

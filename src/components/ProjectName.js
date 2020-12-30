@@ -1,10 +1,10 @@
 import React from 'react';
 import { MdDeleteForever } from 'react-icons/md';
 
-export const ProjectName = ({ projectName, showDelete }) => {
+export const ProjectName = ({ projectName, showDelete, showSidebar, setShowSidebar }) => {
   return (
     <h2 data-testid="project-name">
-      {projectName}
+      <span onClick={() => setShowSidebar(true)}>{projectName}</span>
       {showDelete && (
         <>
           &nbsp;

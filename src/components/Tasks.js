@@ -10,7 +10,7 @@ import { useSelectedProjectValue, useProjectsValue } from '../context';
 import { FaFastBackward, FaInfoCircle } from 'react-icons/fa';
 import moment from 'moment';
 
-export const Tasks = () => {
+export const Tasks = ({ showSidebar, setShowSidebar }) => {
   const { selectedProject } = useSelectedProjectValue();
   const { projects } = useProjectsValue();
   const { tasks } = useTasks(selectedProject);
@@ -50,7 +50,7 @@ export const Tasks = () => {
   }
 
   useEffect(() => {
-    document.title = `${showName} | Todo List`;
+    document.title = `${showName} | Úkolníček`;
     if (
       projectName == 'Inbox' ||
       projectName == 'Today' ||
@@ -95,8 +95,8 @@ export const Tasks = () => {
 
   return (
     <>
-      <div className="tasks" data-testid="tasks">
-        <ProjectName projectName={showName} showDelete={showDelete} />
+      <div id="tasks" className="tasks" data-testid="tasks">
+        <ProjectName projectName={showName} showDelete={showDelete} showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
         <ul className="tasks__list">
           {tasks.length > 0 || todayArchivedTasks.length > 0 ? (
             cleanTasks

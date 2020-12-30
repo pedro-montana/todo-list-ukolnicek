@@ -4,28 +4,43 @@ import { FaToggleOff, FaToggleOn } from 'react-icons/fa';
 import { AddTask } from '../AddTask';
 import { firebase } from '../../firebase';
 
-export const Header = ({ darkMode, setDarkMode, offset, showSidebar, setShowSidebar, docId }) => {
+export const Header = ({
+  darkMode,
+  setDarkMode,
+  offset,
+  showSidebar,
+  setShowSidebar,
+  docId,
+  tasks,
+}) => {
   const [shouldShowMain, setShouldShowMain] = useState(false);
   const [showQuickAddTask, setShowQuickAddTask] = useState(false);
+  const [tasksToFinish, setTasksToFinish] = useState(0);
 
   const saveTheme = () => {
     localStorage.setItem('darkTheme', !darkMode);
-    firebase
-      .firestore()
-      .collection('users')
-      .doc(docId)
-      .update({
-        darkmodeDefault: !darkMode,
-      });
+    firebase.firestore().collection('users').doc(docId).update({
+      darkmodeDefault: !darkMode,
+    });
   };
 
   useEffect(() => {
     if (showQuickAddTask) {
-      document.body.style.overflowY = 'hidden';
+      document.body.classList.add('overlay');
     } else {
-      document.body.style.overflowY = 'visible';
+      document.body.classList.remove('overlay');
     }
   }, [showQuickAddTask]);
+
+  useEffect(() => {
+    setTasksToFinish(
+      tasks.filter(
+        (task) =>
+          moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') <=
+          moment().format('YYYY/MM/DD')
+      ).length
+    );
+  }, [tasks]);
 
   return (
     <header
@@ -39,6 +54,18 @@ export const Header = ({ darkMode, setDarkMode, offset, showSidebar, setShowSide
             alt="Blbnicek"
             onClick={() => setShowSidebar(!showSidebar)}
           />
+          <span
+            onClick={() => setShowSidebar(!showSidebar)}
+            title={tasksToFinish && tasksToFinish > 0 &&
+              `${tasksToFinish} nejaktuálnější ${tasksToFinish == 1
+                ? `úkol`
+                : tasksToFinish >= 2 && tasksToFinish <= 4
+                ? `úkoly`
+                : `úkolů`}`
+            }
+          >
+            {tasksToFinish > 0 && ` (${tasksToFinish})`}
+          </span>
         </div>
         <div className="settings">
           <ul>

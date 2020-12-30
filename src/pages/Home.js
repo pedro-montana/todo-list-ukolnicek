@@ -7,6 +7,7 @@ import {
   SelectedProjectProvider,
   useSelectedProjectValue,
 } from '../context';
+import { useTasks } from '../hooks';
 import { firebase } from '../firebase';
 
 export const Home = () => {
@@ -16,6 +17,7 @@ export const Home = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [docId, setDocId] = useState('');
   const [tryLoad, setTryLoad] = useState(0);
+  const { tasks } = useTasks('INBOX');
 
   const scrollTop = () => {
     window.scrollTo(0, 0);
@@ -103,11 +105,13 @@ export const Home = () => {
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
                 docId={docId}
+                tasks={tasks}
               />
               <Content
                 offset={offset}
                 showSidebar={showSidebar}
                 setShowSidebar={setShowSidebar}
+                tasks={tasks}
               />
             </main>
           </div>
