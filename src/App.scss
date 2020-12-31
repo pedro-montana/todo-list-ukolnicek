@@ -512,15 +512,15 @@ header {
             }
           }
           &.settings__today-date {
-            margin-right: 300px;
-            width: 60px;
+            margin-right: 65px;
             cursor: default;
+            text-align: right;
             &:hover {
               border-radius: none;
               background-color: initial;
             }
 
-            @media (max-width: 900px) {
+            @media (max-width: 550px) {
               display: none;
             }
           }
