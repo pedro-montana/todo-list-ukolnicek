@@ -60,12 +60,12 @@ export const Header = ({
               title={
                 tasksToFinish &&
                 tasksToFinish > 0 &&
-                `${tasksToFinish} nejaktuálnější ${
+                `${tasksToFinish} ${
                   tasksToFinish == 1
-                    ? `úkol`
+                    ? `aktuální úkol`
                     : tasksToFinish >= 2 && tasksToFinish <= 4
-                    ? `úkoly`
-                    : `úkolů`
+                    ? `aktuální úkoly`
+                    : `aktuálních úkolů`
                 }`
               }
             >

@@ -160,12 +160,6 @@ export const Tasks = ({ showSidebar, setShowSidebar }) => {
         </div>
         {showArchivedTasks && (
           <>
-            {/* <p className="tasks__revive-disclaimer">
-              <i>
-                Dokončené úkoly je možné obnovit do 3 dnů než jsou automaticky
-                odstraněny.
-              </i>
-            </p> */}
             <ul className="tasks__revive-list">
               {cleanArchivedTasks.length > 0 ? (
                 cleanArchivedTasks.sort(compareArchived).map((task, i) => (

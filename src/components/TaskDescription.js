@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { FaChevronDown, FaChevronUp, FaRegCalendarAlt } from 'react-icons/fa';
 import Linkify from 'react-linkify';
 import { firebase } from '../firebase';
+import moment from 'moment';
 
 export const TaskDescription = ({
   task,
   id,
   descId,
   desc,
-  // date,
+  taskDate,
   editTask,
   setEditTask,
   showDescription,
@@ -16,11 +17,12 @@ export const TaskDescription = ({
 }) => {
   const [description, setDescription] = useState(desc);
   const [taskName, setTaskName] = useState(task);
-  const [showTaskDate, setShowTaskDate] = useState(false);
+  const [date, setDate] = useState(taskDate);
   const updateTask = () => {
     firebase.firestore().collection('tasks').doc(id).update({
       task: taskName,
       description,
+      date,
     });
   };
 
@@ -46,6 +48,26 @@ export const TaskDescription = ({
             setDescription(e.target.value);
           }}
         />
+        <label
+        className="task-edit-date"
+        >
+          Datum&nbsp;
+        <input
+          type="date"
+          onChange={(e) => {
+            setDate(
+              moment(e.target.value, 'YYYY-MM-DD').format('YYYY/MM/DD')
+            );
+          }}
+          title="Změnit datum"
+          min={moment().format('YYYY-MM-DD')}
+          value={
+            date !== 'Invalid date'
+              ? moment(date, 'YYYY/MM/DD').format('YYYY-MM-DD')
+              : moment().format('YYYY-MM-DD')
+          }
+        />
+        </label>
         <button
           type="button"
           className="add-task__submit"
@@ -61,7 +83,7 @@ export const TaskDescription = ({
         <span
           className="add-task__cancel"
           data-testid="add-task-main-cancel"
-          onClick={() => setEditTask(false)}
+          onClick={() => {setEditTask(false); setDate(taskDate); setDescription(desc); setTaskName(task);}}
           aria-label="Cancel adding a task"
           tabIndex={0}
           role="button"
@@ -76,7 +98,12 @@ export const TaskDescription = ({
       <span onClick={() => setShowDescription(!showDescription)}>
         <Linkify
           componentDecorator={(decoratedHref, decoratedText) => (
-            <a href={decoratedHref} target="_blank" rel="noopener noreferrer" key={0}>
+            <a
+              href={decoratedHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              key={0}
+            >
               {decoratedText}
             </a>
           )}

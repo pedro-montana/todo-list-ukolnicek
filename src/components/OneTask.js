@@ -17,7 +17,7 @@ export const OneTask = ({ task, project }) => {
           descId={`desc_${task.id}`}
           desc={task.description && task.description}
           task={task.task}
-          // date={task.date}
+          taskDate={task.date}
           editTask={editTask}
           setEditTask={setEditTask}
           showDescription={showDescription}
