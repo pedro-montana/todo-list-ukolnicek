@@ -54,18 +54,24 @@ export const Header = ({
             alt="Blbnicek"
             onClick={() => setShowSidebar(!showSidebar)}
           />
-          <span
-            onClick={() => setShowSidebar(!showSidebar)}
-            title={tasksToFinish && tasksToFinish > 0 &&
-              `${tasksToFinish} nejaktuálnější ${tasksToFinish == 1
-                ? `úkol`
-                : tasksToFinish >= 2 && tasksToFinish <= 4
-                ? `úkoly`
-                : `úkolů`}`
-            }
-          >
-            {tasksToFinish > 0 && ` (${tasksToFinish})`}
-          </span>
+          {tasksToFinish > 0 && (
+            <span
+              onClick={() => setShowSidebar(!showSidebar)}
+              title={
+                tasksToFinish &&
+                tasksToFinish > 0 &&
+                `${tasksToFinish} nejaktuálnější ${
+                  tasksToFinish == 1
+                    ? `úkol`
+                    : tasksToFinish >= 2 && tasksToFinish <= 4
+                    ? `úkoly`
+                    : `úkolů`
+                }`
+              }
+            >
+              {tasksToFinish > 0 && `${tasksToFinish}`}
+            </span>
+          )}
         </div>
         <div className="settings">
           <ul>

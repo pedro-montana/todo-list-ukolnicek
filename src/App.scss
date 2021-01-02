@@ -477,10 +477,14 @@ header {
           margin-top: 2px;
         }
         span {
-          color: #d9d9d9;
-          cursor: default;
-          @media (min-width: 900px) {
-            display: none;
+          @media (max-width: 900px) {
+            color: #d9d9d9;
+            cursor: default;
+            background: #b30000;
+            border-radius: 10px;
+            padding-left: 2px;
+            padding-right: 2px;
+            margin-left: -5px;
           }
         }
       }
