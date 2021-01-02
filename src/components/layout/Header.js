@@ -70,7 +70,7 @@ export const Header = ({
         <div className="settings">
           <ul>
             <li className="settings__today-date" key={0}>
-              <span>Dnes:&nbsp;{moment().format('DD.MM.YYYY')}</span>
+              <span>{moment().format('DD.MM.YYYY')}</span>
             </li>
             <li className="settings__add" key={1}>
               <button

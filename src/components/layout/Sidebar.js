@@ -106,6 +106,11 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
               <span>
                 Dnes
                 {tasks.length > 0 &&
+                  tasks.filter(
+                    (task) =>
+                      moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') <=
+                      moment().format('YYYY/MM/DD')
+                  ).length > 0 &&
                   ` (${
                     tasks.filter(
                       (task) =>

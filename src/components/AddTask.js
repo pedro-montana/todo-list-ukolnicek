@@ -20,6 +20,7 @@ export const AddTask = ({
   const [showTaskDate, setShowTaskDate] = useState(false);
   const [showAddDescription, setShowAddDescription] = useState(false);
   const [description, setDescription] = useState('');
+  const [datum, setDatum] = useState('');
 
   const { selectedProject } = useSelectedProjectValue();
 
@@ -57,6 +58,10 @@ export const AddTask = ({
         })
     );
   };
+
+  useEffect(() => {
+      setShowTaskDate(false);
+  }, [taskDate]);
   return (
     <div
       className={showQuickAddTask ? 'add-task add-task__overlay' : 'add-task'}
@@ -120,6 +125,7 @@ export const AddTask = ({
             setShowProjectOverlay={setShowProjectOverlay}
           />
           <TaskDate
+          taskDate={taskDate}
             setTaskDate={setTaskDate}
             showTaskDate={showTaskDate}
             setShowTaskDate={setShowTaskDate}
@@ -163,10 +169,7 @@ export const AddTask = ({
                 setShowMain(false);
                 setShowProjectOverlay(false);
                 setShowAddDescription(false);
-              }}
-              onKeyDown={() => {
-                setShowMain(false);
-                setShowProjectOverlay(false);
+                setTaskDate('Invalid date');
               }}
               aria-label="Cancel adding a task"
               tabIndex={0}

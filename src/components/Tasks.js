@@ -7,7 +7,8 @@ import { useTasks } from '../hooks';
 import { collatedTasks } from '../constants';
 import { getTitle, getCollatedTitle, collatedTasksExist } from '../helpers';
 import { useSelectedProjectValue, useProjectsValue } from '../context';
-import { FaFastBackward, FaInfoCircle } from 'react-icons/fa';
+import { FaFastBackward, FaInfoCircle, FaTrash } from 'react-icons/fa';
+import { firebase } from '../firebase';
 import moment from 'moment';
 
 export const Tasks = ({ showSidebar, setShowSidebar }) => {
@@ -72,6 +73,16 @@ export const Tasks = ({ showSidebar, setShowSidebar }) => {
     return 0;
   }
 
+  function compareArchived(a, b) {
+    if (a.archived < b.archived) {
+      return 1;
+    }
+    if (a.archived > b.archived) {
+      return -1;
+    }
+    return 0;
+  }
+
   useEffect(() => {
     setTodayArchivedTasks(
       archivedTasks.filter(
@@ -96,7 +107,12 @@ export const Tasks = ({ showSidebar, setShowSidebar }) => {
   return (
     <>
       <div id="tasks" className="tasks" data-testid="tasks">
-        <ProjectName projectName={showName} showDelete={showDelete} showSidebar={showSidebar} setShowSidebar={setShowSidebar} />
+        <ProjectName
+          projectName={showName}
+          showDelete={showDelete}
+          showSidebar={showSidebar}
+          setShowSidebar={setShowSidebar}
+        />
         <ul className="tasks__list">
           {tasks.length > 0 || todayArchivedTasks.length > 0 ? (
             cleanTasks
@@ -144,22 +160,60 @@ export const Tasks = ({ showSidebar, setShowSidebar }) => {
         </div>
         {showArchivedTasks && (
           <>
-            {/* <h2>
-              <i>Starší úkoly k obnovení</i>
-            </h2> */}
-            <p className="tasks__revive-disclaimer">
+            {/* <p className="tasks__revive-disclaimer">
               <i>
                 Dokončené úkoly je možné obnovit do 3 dnů než jsou automaticky
                 odstraněny.
               </i>
-            </p>
+            </p> */}
             <ul className="tasks__revive-list">
               {cleanArchivedTasks.length > 0 ? (
-                cleanArchivedTasks.map((task) => (
-                  <li key={`${task.id}`}>
-                    <CheckboxRevive id={task.id} taskDesc={task.task} />
-                    <span className="archived-task">{task.task}</span>
-                  </li>
+                cleanArchivedTasks.sort(compareArchived).map((task, i) => (
+                  <>
+                    {i === 0 && (
+                      <span
+                        key={moment(task.archived, 'YYYY/MM/DD').format(
+                          'DD.MM.YYYY'
+                        )}
+                        title="Dokončeno"
+                      >
+                        {moment(task.archived, 'YYYY/MM/DD').format(
+                          'DD.MM.YYYY'
+                        )}
+                      </span>
+                    )}
+                    {cleanArchivedTasks[i - 1] &&
+                      task.archived !== cleanArchivedTasks[i - 1].archived && (
+                        <span
+                          key={moment(task.archived, 'YYYY/MM/DD').format(
+                            'DD.MM.YYYY'
+                          )}
+                          title="Dokončeno"
+                        >
+                          {moment(task.archived, 'YYYY/MM/DD').format(
+                            'DD.MM.YYYY'
+                          )}
+                        </span>
+                      )}
+                    <li key={`${task.id}`}>
+                      <CheckboxRevive id={task.id} taskDesc={task.task} />
+                      <span className="archived-task">{task.task}</span>
+                      <span
+                        className="archived-task-delete"
+                        data-testid="archived-task-delete"
+                        onClick={() =>
+                          firebase
+                            .firestore()
+                            .collection('tasks')
+                            .doc(task.id)
+                            .delete()
+                        }
+                        title="Odstranit"
+                      >
+                        <FaTrash />
+                      </span>
+                    </li>
+                  </>
                 ))
               ) : (
                 <div>
