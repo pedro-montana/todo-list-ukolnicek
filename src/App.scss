@@ -116,7 +116,7 @@ $generic-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 0px 1px,
   rgba(0, 0, 0, 0.1) 0px 4px 11px;
 $generic-border: 1px solid #f1f1f1;
 $generic-bg: #6344d3;
-$generic-min-width: 250px;
+$generic-min-width: 330px;
 
 /* Mixins
         ============================================ */
@@ -803,20 +803,7 @@ $sidebar-transition-left: 300ms;
 /* Show Confirm Delete
         ============================================ */
 .project-delete-modal {
-  position: absolute;
-  z-index: 1000;
-  left: 0;
-
-  &__inner {
-    @include box-overlay();
-    z-index: 1099;
-    width: 200px;
-    padding: 10px;
-    top: 16px;
-    right: 0;
-    background-color: white;
-    position: relative;
-    display: block;
+  margin-bottom: 20px;
 
     p {
       margin-top: 5px;
@@ -834,7 +821,6 @@ $sidebar-transition-left: 300ms;
       font-weight: normal;
       margin-top: 12px;
     }
-  }
 }
 
 /* Main Content
@@ -1056,6 +1042,18 @@ $sidebar-transition-left: 300ms;
       display: block;
       min-width: 260px;
       overflow: hidden;
+    }
+    .task-edit-important {
+      margin-right: 10px;
+      border-radius: 5px;
+      svg {
+        fill: gray;
+      }
+      &.active {
+        svg {
+          fill: red;
+        }
+      }
     }
 
     &:hover {
@@ -1294,6 +1292,20 @@ $sidebar-transition-left: 300ms;
   }
   &__desc {
     @extend .add-task__date;
+  }
+
+  &__important {
+    @extend .add-task__date;
+    padding: 1px;
+    border-radius: 5px;
+    svg {
+      fill: gray;
+    }
+    &.active {
+      svg {
+        fill: red;
+      }
+    }
   }
 
   &__content {

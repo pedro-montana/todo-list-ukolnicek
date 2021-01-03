@@ -13,7 +13,6 @@ export const Checkbox = ({ id, taskDesc }) => {
       className="checkbox-holder"
       data-testid="checkbox-action"
       onClick={() => archiveTask()}
-      onKeyDown={() => archiveTask()}
       aria-label={`Označit úkol ${taskDesc} jako dokončený?`}
       title={`Označit úkol '${taskDesc}' jako dokončený`}
       role="button"

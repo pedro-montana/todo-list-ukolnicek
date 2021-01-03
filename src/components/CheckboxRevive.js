@@ -12,7 +12,6 @@ export const CheckboxRevive = ({ id, taskDesc }) => {
       className="checkbox-holder"
       data-testid="checkbox-action"
       onClick={() => reviveTask()}
-      onKeyDown={() => reviveTask()}
       aria-label={`Označit úkol ${taskDesc} jako nedokončený`}
       title={`Označit úkol '${taskDesc}' jako nedokončený`}
       role="button"

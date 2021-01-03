@@ -65,10 +65,6 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
                 setShowSidebar(false);
                 scrollTop();
               }}
-              onKeyDown={() => {
-                setActive('inbox');
-                setSelectedProject('INBOX');
-              }}
             >
               <span>
                 <FaInbox />
@@ -94,10 +90,6 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
                 setSelectedProject('TODAY');
                 setShowSidebar(false);
                 scrollTop();
-              }}
-              onKeyDown={() => {
-                setActive('today');
-                setSelectedProject('TODAY');
               }}
             >
               <span>
@@ -137,10 +129,6 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
                 setShowSidebar(false);
                 scrollTop();
               }}
-              onKeyDown={() => {
-                setActive('next_7');
-                setSelectedProject('NEXT_7');
-              }}
             >
               <span>
                 <FaRegCalendarAlt />
@@ -154,7 +142,6 @@ export const Sidebar = ({ showSidebar, setShowSidebar, tasks }) => {
           aria-label="Ukázat/Skrýt projekty"
           title={!showProjects ? 'Ukázat projekty' : 'Skrýt projekty'}
           onClick={() => setShowProjects(!showProjects)}
-          onKeyDown={() => setShowProjects(!showProjects)}
           role="button"
           tabIndex={0}
         >

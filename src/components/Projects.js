@@ -32,10 +32,6 @@ export const Projects = ({ activeValue = null, setShowSidebar, scrollTop }) => {
             !blockShowSidebar && setShowSidebar(false);
             scrollTop();
           }}
-          onKeyDown={() => {
-            setActive(project.projectId);
-            setSelectedProject(project.projectId);
-          }}
         >
           <IndividualProject
             setShowSidebar={setShowSidebar}

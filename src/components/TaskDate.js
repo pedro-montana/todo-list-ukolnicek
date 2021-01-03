@@ -17,10 +17,6 @@ export const TaskDate = ({
               setShowTaskDate(false);
               setTaskDate(moment().format('YYYY/MM/DD'));
             }}
-            onKeyDown={() => {
-              setShowTaskDate(false);
-              setTaskDate(moment().format('YYYY/MM/DD'));
-            }}
             tabIndex={0}
             aria-label="Select today as the task date"
             role="button"
@@ -37,10 +33,6 @@ export const TaskDate = ({
               setShowTaskDate(false);
               setTaskDate(moment().add(1, 'days').format('YYYY/MM/DD'));
             }}
-            onKeyDown={() => {
-              setShowTaskDate(false);
-              setTaskDate(moment().add(1, 'days').format('YYYY/MM/DD'));
-            }}
             tabIndex={0}
             role="button"
             aria-label="Select tomorrow as the task date"
@@ -54,10 +46,6 @@ export const TaskDate = ({
         <li data-testid="task-date-next-week" key={2}>
           <div
             onClick={() => {
-              setShowTaskDate(false);
-              setTaskDate(moment().add(7, 'days').format('YYYY/MM/DD'));
-            }}
-            onKeyDown={() => {
               setShowTaskDate(false);
               setTaskDate(moment().add(7, 'days').format('YYYY/MM/DD'));
             }}
@@ -86,7 +74,7 @@ export const TaskDate = ({
               }}
               title="Zvolit přesné datum"
               min={moment().format('YYYY-MM-DD')}
-              value={taskDate !== 'Invalid date' ? moment(taskDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')}
+              value={taskDate !== 'Invalid date' && taskDate !== 'Important' ? moment(taskDate).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')}
             />
           </div>
         </li>

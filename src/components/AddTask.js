@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { FaRegListAlt, FaRegCalendarAlt, FaPlusCircle } from 'react-icons/fa';
+import { FaRegListAlt, FaRegCalendarAlt, FaPlusCircle, FaExclamation } from 'react-icons/fa';
 import moment from 'moment';
 import { firebase } from '../firebase';
 import { useSelectedProjectValue } from '../context';
@@ -14,13 +14,13 @@ export const AddTask = ({
 }) => {
   const [task, setTask] = useState('');
   const [taskDate, setTaskDate] = useState('Invalid date');
+  const [taskImportant, setTaskImportant] = useState(false);
   const [project, setProject] = useState('');
   const [showMain, setShowMain] = useState(shouldShowMain);
   const [showProjectOverlay, setShowProjectOverlay] = useState(false);
   const [showTaskDate, setShowTaskDate] = useState(false);
   const [showAddDescription, setShowAddDescription] = useState(false);
   const [description, setDescription] = useState('');
-  const [datum, setDatum] = useState('');
 
   const { selectedProject } = useSelectedProjectValue();
 
@@ -62,6 +62,13 @@ export const AddTask = ({
   useEffect(() => {
       setShowTaskDate(false);
   }, [taskDate]);
+
+  useEffect(() => {
+    if (taskDate !== 'Important') {
+      setTaskImportant(false);
+    }
+  }, [taskDate]);
+
   return (
     <div
       className={showQuickAddTask ? 'add-task add-task__overlay' : 'add-task'}
@@ -73,7 +80,6 @@ export const AddTask = ({
             className="add-task__shallow"
             data-testid="show-main-action"
             onClick={() => setShowMain(!showMain)}
-            onKeyDown={() => setShowMain(!showMain)}
             tabIndex={0}
             aria-label="Přidat úkol"
             role="button"
@@ -102,11 +108,6 @@ export const AddTask = ({
                   data-testid="add-task-quick-cancel"
                   aria-label="Zrušit přidávání úkolu"
                   onClick={() => {
-                    setShowMain(false);
-                    setShowProjectOverlay(false);
-                    setShowQuickAddTask(false);
-                  }}
-                  onKeyDown={() => {
                     setShowMain(false);
                     setShowProjectOverlay(false);
                     setShowQuickAddTask(false);
@@ -182,7 +183,6 @@ export const AddTask = ({
             className="add-task__project"
             data-testid="show-project-overlay"
             onClick={() => setShowProjectOverlay(!showProjectOverlay)}
-            onKeyDown={() => setShowProjectOverlay(!showProjectOverlay)}
             tabIndex={0}
             role="button"
             title="Zvolit projekt"
@@ -193,7 +193,6 @@ export const AddTask = ({
             className="add-task__date"
             data-testid="show-task-date-overlay"
             onClick={() => setShowTaskDate(!showTaskDate)}
-            onKeyDown={() => setShowTaskDate(!showTaskDate)}
             tabIndex={0}
             role="button"
             title="Zvolit datum"
@@ -209,6 +208,12 @@ export const AddTask = ({
           >
             <FaPlusCircle />
           </span>
+          {!showQuickAddTask && 
+            <span
+            className={taskImportant ? "add-task__important active" : "add-task__important"}
+            onClick={() => {!taskImportant ? setTaskDate('Important') : setTaskDate('Invalid date'); setTaskImportant(!taskImportant);}}
+            title="Označit úkol důležitý (Zobrazí se mezi prvními)"
+            ><FaExclamation /></span>}
         </div>
       )}
     </div>

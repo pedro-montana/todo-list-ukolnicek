@@ -33,7 +33,7 @@ export const OneTask = ({ task, project }) => {
               }
               style={
                 task.date &&
-                !task.date.includes('Invalid') &&
+                !task.date.includes('Invalid') && !task.date.includes('Important') &&
                 moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') <
                   moment().format('YYYY/MM/DD')
                   ? { color: '#990000' }
@@ -42,20 +42,20 @@ export const OneTask = ({ task, project }) => {
               title={
                 project != 'Today' &&
                 task.date &&
-                !task.date.includes('Invalid')
+                !task.date.includes('Invalid') && !task.date.includes('Important')
                   ? moment(task.date, 'YYYY/MM/DD').format('DD.MM.YYYY')
                   : undefined
               }
             >
               {
                 task.date &&
-                !task.date.includes('Invalid') &&
+                !task.date.includes('Invalid') && !task.date.includes('Important') &&
                 moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') !=
                   moment().format('YYYY/MM/DD') &&
                 moment(task.date, 'YYYY/MM/DD').format('DD.MM.')}
               {
                 task.date &&
-                !task.date.includes('Invalid') &&
+                !task.date.includes('Invalid') && !task.date.includes('Important') &&
                 moment(task.date, 'YYYY/MM/DD').format('YYYY/MM/DD') ==
                   moment().format('YYYY/MM/DD') &&
                 'Dnes'}
